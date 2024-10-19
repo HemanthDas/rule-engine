@@ -10,7 +10,10 @@ const CreateRule = ({ setFetchResult }: ResultsProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await createRule(tag, rule);
-    alert(response.message);
+    alert(response.error);
+    if (response.error) {
+      return;
+    }
     setFetchResult(JSON.stringify(response.res.ast.ast, null, 2));
   };
 

@@ -19,7 +19,7 @@ export const createRule = async (ruletag: string, rule: string) => {
     }),
   });
   if (response.status == 400) {
-    return { message: "tag already exists" };
+    return await response.json();
   }
   if (response.ok) {
     return {
@@ -41,7 +41,7 @@ export const validateRule = async (ruleTag: string, fieldValues: any) => {
       data: fieldValues,
     }),
   });
-  
+
   return response.json();
 };
 export const mergeRules = async (
@@ -64,5 +64,5 @@ export const mergeRules = async (
   if (response.ok) {
     return { message: "Rules merged successfully", res: await response.json() };
   }
-  return { message: "Error merging rules" };
+  return await response.json();
 };

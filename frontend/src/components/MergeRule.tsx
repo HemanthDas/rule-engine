@@ -22,8 +22,12 @@ const MergeRule = ({ setFetchResult }: ResultsProps) => {
     e.preventDefault();
     try {
       const response = await mergeRules(rules, operator, tag);
+      if (response.error) {
+        alert(response.error);
+        return;
+      }
       alert(`Merge successful: ${response.message}`);
-        
+
       setFetchResult(JSON.stringify(response.res.merged.ast, null, 2));
     } catch (error) {
       console.error("Error merging rules:", error);
