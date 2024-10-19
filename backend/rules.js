@@ -6,7 +6,21 @@ class Node {
     this.right = right;
   }
 }
+function extractFields(node) {
+  const fields = new Set();
 
+  function traverse(node) {
+    if (node.type === "operand") {
+      fields.add(node.value.key);
+    } else if (node.type === "operator") {
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+    }
+  }
+
+  traverse(node);
+  return Array.from(fields);
+}
 function createRule(ruleString) {
   const operators = ["AND", "OR"];
 
@@ -112,4 +126,4 @@ function evaluateRule(node, data) {
   throw new Error(`Unknown node type: "${node.type}"`);
 }
 
-module.exports = { createRule, evaluateRule };
+module.exports = { createRule, evaluateRule, extractFields };

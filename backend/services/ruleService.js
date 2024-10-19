@@ -1,6 +1,7 @@
 const {
   createRule: createRuleAST,
   evaluateRule: evaluateAST,
+  extractFields,
 } = require("../rules");
 const db = require("../db");
 
@@ -34,6 +35,16 @@ exports.evaluateRule = async (tag, data) => {
     console.error("Error evaluating rule:", error);
     throw error;
   }
+};
+
+exports.getFieldsFromRule = async (tag) => {
+  const rule = await this.getRuleByTag(tag);
+  if (!rule) {
+    throw new Error(`No rule found for tag: ${tag}`);
+  }
+
+  const fields = extractFields(rule.ast);
+  return fields;
 };
 
 exports.getRuleByTag = (tag) => {

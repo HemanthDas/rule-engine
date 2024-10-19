@@ -10,7 +10,16 @@ exports.createRule = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+exports.getFieldsFromRule = async (req, res) => {
+  const { tag } = req.params;
 
+  try {
+    const fields = await ruleService.getFieldsFromRule(tag);
+    res.status(200).json({ fields });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
 exports.evaluateRule = async (req, res) => {
   const { tag, data } = req.body;
 
