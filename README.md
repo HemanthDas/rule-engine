@@ -56,16 +56,16 @@ class Node {
 
 ## Database Schema
 
-The application uses a relational database (e.g., MySQL) to store the rules and metadata. The following schema is defined:
+The application uses a relational database (e.g., MySQL) to store the rules and metadata & make sure to create table before using the sql. The following schema is defined:
 
 ### Rules Table
 
-| Column Name | Data Type | Description                           |
-| ----------- | --------- | ------------------------------------- |
-| id          | INT       | Primary key                           |
-| rule_string | TEXT      | The string representation of the rule |
-| created_at  | TIMESTAMP | The time the rule was created         |
-| updated_at  | TIMESTAMP | The time the rule was last updated    |
+| Column Name | Data Type    | Description                                                |
+| ----------- | ------------ | ---------------------------------------------------------- |
+| id          | INT          | Primary key                                                |
+| tag         | VARCHAR(255) | A descriptive tag used to categorize or identify the rule. |
+| rule_string | TEXT         | The string representation of the rule                      |
+| created_at  | TIMESTAMP    | The time the rule was created                              |
 
 ### Sample Data
 
