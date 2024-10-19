@@ -107,6 +107,7 @@ function combineRules(rules, operator) {
     mergedString = `(${mergedString} ${operator} ${rules[i].rule})`;
   }
   const ast = createRule(mergedString);
+  console.log(mergedString);
   return { mergedString, ast };
 }
 

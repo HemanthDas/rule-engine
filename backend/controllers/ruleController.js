@@ -25,7 +25,8 @@ exports.getFieldsFromRule = async (req, res) => {
 
   try {
     const fields = await ruleService.getFieldsFromRule(tag);
-    res.status(200).json({ fields });
+    const rule = await ruleService.getRuleByTag(tag);
+    res.status(200).json({ fields, rule });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
