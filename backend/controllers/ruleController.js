@@ -46,3 +46,31 @@ exports.evaluateRule = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+exports.getRuleByTag = async (req, res) => {
+  const { tag } = req.params;
+
+  try {
+    const rule = await ruleService.getRuleStringByTag(tag);
+    res.status(200).json({ rule });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+exports.deleteRule = async (req, res) => {
+  const { tag } = req.params;
+  try {
+    const result = await ruleService.deleteRule(tag);
+    res.status(200).json({ result });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+exports.updateRule = async (req, res) => {
+  const { ruleString, tag } = req.body;
+  try {
+    const result = await ruleService.updateRule(tag, ruleString);
+    res.status(200).json({ result });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};

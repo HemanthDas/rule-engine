@@ -47,7 +47,22 @@ exports.getFieldsFromRule = async (tag) => {
   const fields = extractFields(rule.ast);
   return fields;
 };
+exports.getRuleStringByTag = (tag) => {
+  const query = "SELECT rule_string FROM rules WHERE tag = ?";
 
+  return new Promise((resolve, reject) => {
+    db.query(query, [tag], (err, results) => {
+      if (err) {
+        return reject(err);
+      }
+      if (results.length) {
+        resolve(results[0].rule_string);
+      } else {
+        resolve(null);
+      }
+    });
+  });
+};
 exports.getRuleByTag = (tag) => {
   const query = "SELECT * FROM rules WHERE tag = ?";
 
@@ -102,5 +117,28 @@ exports.createCombinedRule = async (rulesArray, tag, operator) => {
         resolve({ id: results.insertId, ast: ast });
       }
     );
+  });
+};
+exports.deleteRule = (tag) => {
+  const query = "DELETE FROM rules WHERE tag = ?";
+  return new Promise((resolve, reject) => {
+    db.query(query, [tag], (err, results) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(results.affectedRows > 0);
+    });
+  });
+};
+exports.updateRule = (tag, ruleString) => {
+  const ast = createRuleAST(ruleString);
+  const query = "UPDATE rules SET rule_string = ?, ast = ? WHERE tag = ?";
+  return new Promise((resolve, reject) => {
+    db.query(query, [ruleString, JSON.stringify(ast), tag], (err, results) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(results.affectedRows > 0);
+    });
   });
 };
