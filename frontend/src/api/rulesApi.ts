@@ -66,3 +66,37 @@ export const mergeRules = async (
   }
   return await response.json();
 };
+
+export const fetchRuleByTag = async (tag: string) => {
+  const response = await fetch(`http://localhost:3000/api/rules/${tag}`);
+  if (response.status == 404) {
+    throw new Error("Rule not found");
+  }
+  return response.json();
+};
+
+export const deleteRule = async (tag: string) => {
+  const response = await fetch(`http://localhost:3000/api/rules/${tag}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Error deleting rule");
+  }
+};
+
+export const updateRule = async (tag: string, rule: string) => {
+  const response = await fetch(`http://localhost:3000/api/rules/${tag}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      tag,
+      ruleString: rule,
+    }),
+  });
+  if (response.status == 404) {
+    throw new Error("Rule not found");
+  }
+  return { tag, ruleString: rule };
+};

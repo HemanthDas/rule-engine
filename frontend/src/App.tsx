@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import CreateRule from "./components/CreateRule";
 import ValidateRule from "./components/ValidateRule";
 import MergeRule from "./components/MergeRule";
+import Rules from "./components/Rules";
 
 function App() {
   const [page, setPage] = useState("");
@@ -18,6 +19,8 @@ function App() {
         return <ValidateRule setFetchResult={setFetchResult} />;
       case "merge":
         return <MergeRule setFetchResult={setFetchResult} />;
+      case "rule":
+        return <Rules />;
       default:
         return (
           <h1 className="font-extrabold text-3xl">RULE ENGINE WITH AST</h1>
@@ -52,6 +55,14 @@ function App() {
           }}
         >
           Validate Rule
+        </button>
+        <button
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
+          onClick={() => {
+            setPage("rule");
+          }}
+        >
+          Rules
         </button>
       </div>
       <div className="w-full flex justify-center">{ComponentLoad}</div>
