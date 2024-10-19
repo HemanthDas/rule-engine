@@ -11,7 +11,7 @@ function App() {
       case "validate":
         return <ValidateRule />;
       default:
-        return <></>;
+        return <h1 className="font-extrabold text-3xl">RULE ENGINE WITH AST</h1>;
     }
   }, [page]);
 

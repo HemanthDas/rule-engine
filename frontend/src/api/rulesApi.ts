@@ -18,10 +18,11 @@ export const createRule = async (ruletag: string, rule: string) => {
       ruleString: rule,
     }),
   });
-  if (!response.ok) {
-    throw new Error(`Error: ${response.statusText}`);
+  if (response.status == 400) {
+    return { message: "tag already exists" };
   }
-  return response.json();
+  if (response.ok) return { message: "Rule created successfully" };
+  return { message: "Error creating rule" };
 };
 
 export const validateRule = async (ruleTag: string, fieldValues: any) => {
