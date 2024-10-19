@@ -10,6 +10,16 @@ exports.createRule = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+exports.mergeRules = async (req, res) => {
+  const { rules, operator, tag } = req.body;
+
+  try {
+    const merged = await ruleService.createCombinedRule(rules, tag, operator);
+    res.status(200).json({ merged });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 exports.getFieldsFromRule = async (req, res) => {
   const { tag } = req.params;
 

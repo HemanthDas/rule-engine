@@ -97,6 +97,18 @@ function createRule(ruleString) {
   const ast = buildAST(ruleString);
   return ast;
 }
+function combineRules(rules, operator) {
+  if (rules.length === 0) return "";
+  if (rules.length === 1) return rules[0].rule;
+
+  let mergedString = rules[0].rule;
+
+  for (let i = 1; i < rules.length; i++) {
+    mergedString = `(${mergedString} ${operator} ${rules[i].rule})`;
+  }
+  const ast = createRule(mergedString);
+  return { mergedString, ast };
+}
 
 function evaluateRule(node, data) {
   if (node.type === "operand") {
@@ -126,4 +138,4 @@ function evaluateRule(node, data) {
   throw new Error(`Unknown node type: "${node.type}"`);
 }
 
-module.exports = { createRule, evaluateRule, extractFields };
+module.exports = { createRule, evaluateRule, extractFields, combineRules };

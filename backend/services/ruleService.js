@@ -2,6 +2,7 @@ const {
   createRule: createRuleAST,
   evaluateRule: evaluateAST,
   extractFields,
+  combineRules,
 } = require("../rules");
 const db = require("../db");
 
@@ -59,7 +60,7 @@ exports.getRuleByTag = (tag) => {
         const rule = results[0];
         let ast;
         try {
-          ast = typeof rule.ast === "string" ? JSON.parse(rule.ast) : rule.ast; // Check if it's a string
+          ast = typeof rule.ast === "string" ? JSON.parse(rule.ast) : rule.ast;
         } catch (parseError) {
           console.error("Failed to parse AST:", parseError);
           return reject(new Error("Invalid AST format in the database."));
@@ -83,7 +84,23 @@ exports.getAllRules = () => {
     });
   });
 };
-exports.createCombinedRule = async (rulesArray, tag) => {
-  const combinedRuleString = combineRules(rulesArray);
-  return this.createRule(combinedRuleString, tag);
+exports.createCombinedRule = async (rulesArray, tag, operator) => {
+  const { mergedString, ast } = combineRules(rulesArray, operator);
+  const query = "INSERT INTO rules (rule_string, ast, tag) VALUES (?, ?, ?)";
+
+  return new Promise((resolve, reject) => {
+    db.query(
+      query,
+      [mergedString, JSON.stringify(ast), tag],
+      (err, results) => {
+        if (err) {
+          if (err.code === "ER_DUP_ENTRY") {
+            return reject(new Error(`Tag "${tag}" already exists.`));
+          }
+          return reject(err);
+        }
+        resolve({ id: results.insertId, ast: ast });
+      }
+    );
+  });
 };

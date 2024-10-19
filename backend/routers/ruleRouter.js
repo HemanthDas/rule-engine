@@ -7,4 +7,6 @@ router.post("/", ruleController.createRule);
 router.post("/evaluate", ruleController.evaluateRule);
 
 router.get("/fields/:tag", ruleController.getFieldsFromRule);
+
+router.post("/merge", ruleController.mergeRules);
 module.exports = router;
