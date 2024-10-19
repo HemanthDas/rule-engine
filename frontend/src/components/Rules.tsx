@@ -110,8 +110,8 @@ const Rules = () => {
             </div>
           ) : (
             <>
-              <pre className="bg-gray-100 p-2 rounded border border-gray-300 text-black">
-                {JSON.stringify(rule, null, 2)}
+              <pre className="bg-gray-100 p-2 rounded border border-gray-300 text-black text-wrap">
+                {JSON.stringify(rule.rule, null, 2)}
               </pre>
               <div className="flex space-x-2 mt-2">
                 <button

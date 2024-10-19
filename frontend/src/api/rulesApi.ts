@@ -8,7 +8,7 @@ export const getFields = async (ruleTag: string) => {
   return response.json();
 };
 export const createRule = async (ruletag: string, rule: string) => {
-  const response = await fetch("http://localhost:3000/api/rules", {
+  const response = await fetch("http://localhost:3000/api/rules/create_rule", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export const createRule = async (ruletag: string, rule: string) => {
 };
 
 export const validateRule = async (ruleTag: string, fieldValues: any) => {
-  const response = await fetch(`http://localhost:3000/api/rules/evaluate/`, {
+  const response = await fetch(`http://localhost:3000/api/rules/evaluate_rule/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export const mergeRules = async (
   operator: string,
   tag: string
 ) => {
-  const response = await fetch("http://localhost:3000/api/rules/merge", {
+  const response = await fetch("http://localhost:3000/api/rules/combine_rules", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
