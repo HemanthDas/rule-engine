@@ -16,7 +16,6 @@ This repository contains the implementation of a Rule Engine that determines use
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Objective
 
