@@ -1,19 +1,30 @@
 import { useState } from "react";
 import { getFields, validateRule } from "../api/rulesApi";
-
-const ValidateRule = () => {
+interface ResultsProps {
+  setFetchResult: (value: string) => void;
+}
+const ValidateRule = ({ setFetchResult }: ResultsProps) => {
+  // State to store the rule tag entered by the user
   const [ruleTag, setRuleTag] = useState("");
+  // State to manage loading state while fetching fields
   const [isFieldsLoading, setIsFieldsLoading] = useState(false);
+  // State to store the fields fetched from the API
   const [fields, setFields] = useState([]);
+  // State to store the values entered for each field
   const [fieldValues, setFieldValues] = useState({});
+  // State to check if fields are available
   const [isFieldsAvailable, setIsFieldsAvailable] = useState(false);
+  // State to manage notification messages
   const [notification, setNotification] = useState("");
 
+  // Handler for submitting the rule tag form
   const onRuleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsFieldsLoading(true);
 
+    // Fetch fields based on the rule tag
     const res = await getFields(ruleTag);
+    setFetchResult(res.rule.rule_string);
     setIsFieldsLoading(false);
 
     if (res.error) {
@@ -28,6 +39,7 @@ const ValidateRule = () => {
     setFieldValues({});
   };
 
+  // Handler for changing field values
   const onFieldChange = (field: string, value: string) => {
     setFieldValues((prevValues) => ({
       ...prevValues,
@@ -35,6 +47,7 @@ const ValidateRule = () => {
     }));
   };
 
+  // Handler for submitting the fields form
   const onSubmitFields = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await validateRule(ruleTag, fieldValues);
@@ -81,7 +94,13 @@ const ValidateRule = () => {
               {fields.map((field, index) => (
                 <li key={index}>
                   <input
-                    type="text"
+                    type={
+                      field === "age" ||
+                      field === "salary" ||
+                      field === "experience"
+                        ? "number"
+                        : "text"
+                    }
                     placeholder={field}
                     onChange={(e) => onFieldChange(field, e.target.value)}
                     className="p-3 rounded border border-gray-300 w-full text-black focus:outline-none focus:ring-2 focus:ring-blue-500"

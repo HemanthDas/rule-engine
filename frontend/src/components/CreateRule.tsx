@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { createRule } from "../api/rulesApi";
-
-const CreateRule = () => {
+interface ResultsProps {
+  setFetchResult: (value: string) => void;
+}
+const CreateRule = ({ setFetchResult }: ResultsProps) => {
   const [tag, setTag] = useState("");
   const [rule, setRule] = useState("");
 
@@ -9,6 +11,7 @@ const CreateRule = () => {
     e.preventDefault();
     const response = await createRule(tag, rule);
     alert(response.message);
+    setFetchResult(JSON.stringify(response.res.ast.ast, null, 2));
   };
 
   return (
