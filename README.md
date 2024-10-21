@@ -14,6 +14,7 @@ This repository contains the implementation of a Rule Engine that determines use
 - [Frontend Usage](#frontend-usage)
 - [Test Cases](#test-cases)
 - [Installation](#installation)
+- [Docker Setup](#docker-setup)
 - [Usage](#usage)
 - [Contributing](#contributing)
 
@@ -40,19 +41,19 @@ The following data structure is used to represent the AST:
 
 ```typescript
 class Node {
-  type: string; // "operator" or "operand"
-  left: Node | null; // Reference to left child node
-  right: Node | null; // Reference to right child node (for operators)
-  value?: number | string; // Optional value for operand nodes
+   type: string; // "operator" or "operand"
+   left: Node | null; // Reference to left child node
+   right: Node | null; // Reference to right child node (for operators)
+   value?: number | string; // Optional value for operand nodes
 }
 ```
 
 ### Example of AST Representation
 
 - For the rule:  
-  `((age > 30 AND department = 'Sales') OR (age < 25 AND department = 'Marketing')) AND (salary > 50000 OR experience > 5)`
+   `((age > 30 AND department = 'Sales') OR (age < 25 AND department = 'Marketing')) AND (salary > 50000 OR experience > 5)`
 
-  The AST will be structured accordingly with nodes representing each condition and operator.
+   The AST will be structured accordingly with nodes representing each condition and operator.
 
 ## Database Schema
 
@@ -80,20 +81,20 @@ INSERT INTO rules (rule_string, created_at, updated_at) VALUES
 
 1. **POST /create_rule**
 
-   - **Description**: Creates a new rule and returns its AST representation.
-   - **Body**: `{ "rule_string": "your_rule" }`
-   - **Response**: Returns the root node of the AST.
+    - **Description**: Creates a new rule and returns its AST representation.
+    - **Body**: `{ "rule_string": "your_rule" }`
+    - **Response**: Returns the root node of the AST.
 
 2. **POST /combine_rules**
 
-   - **Description**: Combines multiple rules into a single AST.
-   - **Body**: `{ "rules": ["rule1", "rule2"] }`
-   - **Response**: Returns the root node of the combined AST.
+    - **Description**: Combines multiple rules into a single AST.
+    - **Body**: `{ "rules": ["rule1", "rule2"] }`
+    - **Response**: Returns the root node of the combined AST.
 
 3. **POST /evaluate_rule**
-   - **Description**: Evaluates the combined rule's AST against provided user attributes.
-   - **Body**: `{ "data": { "age": 35, "department": "Sales", "salary": 60000, "experience": 3 } }`
-   - **Response**: Returns `true` or `false` based on eligibility.
+    - **Description**: Evaluates the combined rule's AST against provided user attributes.
+    - **Body**: `{ "data": { "age": 35, "department": "Sales", "salary": 60000, "experience": 3 } }`
+    - **Response**: Returns `true` or `false` based on eligibility.
 
 ### Error Handling
 
@@ -145,37 +146,60 @@ Implement error handling for:
 
 1. Clone the repository:
 
-   ```bash
-   git clone <repository-url>
-   cd rule-engine
-   ```
+    ```bash
+    git clone <repository-url>
+    cd rule-engine
+    ```
 
 2. Install dependencies:
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 3. Configure your database:
 
-   - Set up a MySQL database.
-   - Create a `.env` file and configure your database connection details:
+    - Set up a MySQL database.
+    - Create a `.env` file and configure your database connection details:
 
-   ```env
-   DB_HOST=localhost
-   DB_USER=root
-   DB_PASS=root
-   DB_NAME=rule_engine
-   DB_PORT=3306
-   ```
+    ```env
+    DB_HOST=localhost
+    DB_USER=root
+    DB_PASS=root
+    DB_NAME=rule_engine
+    DB_PORT=3306
+    ```
 
 4. Start the application:
 
-   ```bash
-   npm start
-   ```
+    ```bash
+    npm start
+    ```
 
 5. Open your browser and navigate to `http://localhost:3000` to access the application.
+
+## Docker Setup
+
+### Prerequisites
+
+- Docker
+- Docker Compose
+
+### Steps to Set Up
+
+1. Build the Docker image:
+
+    ```bash
+    docker build -t rule-engine .
+    ```
+
+2. Run the Docker container:
+
+    ```bash
+    docker run -d -p 3000:3000 --env-file .env rule-engine
+    ```
+
+3. Open your browser and navigate to `http://localhost:3000` to access the application.
 
 ## Usage
 
@@ -186,3 +210,4 @@ Implement error handling for:
 ## Contributing
 
 Contributions are welcome! Please submit an issue or pull request for any suggestions or improvements.
+

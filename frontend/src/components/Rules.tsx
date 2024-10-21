@@ -3,7 +3,7 @@ import { fetchRuleByTag, deleteRule, updateRule } from "../api/rulesApi"; // Imp
 
 const Rules = () => {
   const [tag, setTag] = useState("");
-  const [rule, setRule] = useState(null);
+  const [rule, setRule] = useState<any>(null);
   const [error, setError] = useState("");
   const [isEditing, setIsEditing] = useState(false); // State to track if editing
   const [updatedRule, setUpdatedRule] = useState(""); // State for the updated rule string
@@ -26,6 +26,7 @@ const Rules = () => {
     if (rule) {
       try {
         const res = await updateRule(tag, updatedRule);
+        console.log(res);
         setRule(res.ruleString);
         setIsEditing(false);
         setError("");
@@ -56,7 +57,8 @@ const Rules = () => {
 
   const handleCancel = () => {
     setIsEditing(false); // Exit editing mode
-    setUpdatedRule(rule.rule_string); // Reset updated rule string to the original
+    console.log(rule);
+    setUpdatedRule(rule?.rule_string);
   };
 
   return (
